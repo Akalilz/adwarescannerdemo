@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="APK Scan Results - Android Adware Scanner">
+    <title>Scan Results - Android Adware Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🛡️</span>
+                <span class="logo-text">APK Security Scanner</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">New Scan</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <div class="hero-content">
+                <h1>🛡️ Scan Complete</h1>
+                <p class="subtitle">Detailed Security Analysis Results</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="result-container">
+                <!-- Final Verdict -->
+                <div class="verdict-card verdict-{{ result.severity }}">
+                    <div class="verdict-icon">
+                        {% if result.severity == 'success' %}
+                            ✅
+                        {% elif result.severity == 'warning' %}
+                            ⚠️
+                        {% else %}
+                            🚨
+                        {% endif %}
+                    </div>
+                    <h2>{{ result.final_verdict }}</h2>
+                    <p class="filename">{{ result.filename }}</p>
+                    <p class="scan-time">Scanned: {{ result.started_at }}</p>
+                </div>
+
+                <!-- Static Analysis Results -->
+                {% if result.static_result %}
+                <div class="analysis-card">
+                    <h3>📊 Static Scan Results (Demo Mode)</h3>
+                    <div class="analysis-content">
+                        <div class="result-row">
+                            <span class="label">Prediction:</span>
+                            <span class="value {% if result.static_result.Prediction == 'Adware Detected!' %}text-danger{% else %}text-success{% endif %}">
+                                {{ result.static_result.Prediction }}
+                            </span>
+                        </div>
+                        <div class="result-row">
+                            <span class="label">Confidence:</span>
+                            <span class="value">{{ "%.2f"|format(result.static_result.Confidence * 100) }}%</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="label">Permissions Found:</span>
+                            <span class="value">{{ result.static_result.Permissions|length }}</span>
+                        </div>
+                    </div>
+
+                    <details class="permissions-details">
+                        <summary>View All Permissions ({{ result.static_result.Permissions|length }})</summary>
+                        <ul class="permissions-list">
+                            {% for perm in result.static_result.Permissions %}
+                            <li>{{ perm }}</li>
+                            {% endfor %}
+                        </ul>
+                    </details>
+                </div>
+                {% else %}
+                <div class="analysis-card">
+                    <h3>� Static Scan Results</h3>
+                    <p class="no-result">No static analysis results available</p>
+                </div>
+                {% endif %}
+
+                <!-- Actions -->
+                <div class="actions-card">
+                    <h3>📥 Export & Actions</h3>
+                    {% if result.pdf_report %}
+                    <p>Download a comprehensive PDF report with detailed findings</p>
+                    <div class="action-buttons">
+                        <a href="/download-report/{{ scan_id }}" class="btn btn-primary">
+                            <span class="btn-icon">📄</span>
+                            Download PDF Report
+                        </a>
+                        <a href="/" class="btn btn-secondary">
+                            <span class="btn-icon">🔄</span>
+                            Scan Another APK
+                        </a>
+                    </div>
+                    {% else %}
+                    <p>✅ No security issues detected - PDF report not generated for clean apps</p>
+                    <div class="action-buttons">
+                        <a href="/" class="btn btn-primary">
+                            <span class="btn-icon">🔄</span>
+                            Scan Another APK
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Recommendations -->
+                <div class="recommendations-card">
+                    <h3>💡 Security Recommendations</h3>
+                    <div class="recommendations-grid">
+                        <div class="recommendation-item {% if result.severity == 'success' %}recommendation-safe{% else %}recommendation-warning{% endif %}">
+                            <div class="recommendation-icon">
+                                {% if result.severity == 'success' %}✓{% else %}⚠️{% endif %}
+                            </div>
+                            <div class="recommendation-content">
+                                <h4>{% if result.severity == 'success' %}This APK appears safe{% else %}Security Risk Detected{% endif %}</h4>
+                                <p>
+                                    {% if result.severity == 'success' %}
+                                        Based on our analysis, this APK shows no signs of adware or malicious behavior. However, always exercise caution when installing apps.
+                                    {% else %}
+                                        We strongly recommend NOT installing this APK. It has been flagged by our security analysis as potentially harmful.
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4 class="rec-section-title">Best Practices</h4>
+                    <ul class="recommendations-list">
+                        <li class="rec-item safe">
+                            <span class="rec-icon">✓</span>
+                            <span>Always download APKs from trusted sources like Google Play Store</span>
+                        </li>
+                        <li class="rec-item safe">
+                            <span class="rec-icon">✓</span>
+                            <span>Review app permissions carefully before installation</span>
+                        </li>
+                        <li class="rec-item safe">
+                            <span class="rec-icon">✓</span>
+                            <span>Keep your device and apps updated with latest security patches</span>
+                        </li>
+                        <li class="rec-item safe">
+                            <span class="rec-icon">✓</span>
+                            <span>Use reliable anti-malware tools regularly on your device</span>
+                        </li>
+                        <li class="rec-item safe">
+                            <span class="rec-icon">✓</span>
+                            <span>Verify app signatures and developer reputation</span>
+                        </li>
+                        {% if result.severity != 'success' %}
+                        <li class="rec-item warning">
+                            <span class="rec-icon">⚠️</span>
+                            <span><strong>Do not install this APK on your device</strong></span>
+                        </li>
+                        <li class="rec-item warning">
+                            <span class="rec-icon">⚠️</span>
+                            <span><strong>Delete the file if obtained from untrusted source</strong></span>
+                        </li>
+                        <li class="rec-item warning">
+                            <span class="rec-icon">⚠️</span>
+                            <span><strong>Report the source if it was presented as legitimate</strong></span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <!-- Share Results -->
+                <div class="share-card">
+                    <h3>🔗 Share Results</h3>
+                    <p>Share this scan ID with your team or security analysts</p>
+                    <div class="share-box">
+                        <input type="text" value="{{ scan_id }}" id="scanIdInput" readonly>
+                        <button class="btn btn-copy" onclick="copyScanId()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span>Copy</span>
+                        </button>
+                    </div>
+                    <p class="share-note">Scan ID: <code>{{ scan_id }}</code></p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About</h4>
+                    <p>Demo APK security analysis for education</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/#features">Features</a></li>
+                        <li><a href="/#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Technology</h4>
+                    <ul class="footer-links">
+                        <li>Androguard</li>
+                        <li>Pattern Detection</li>
+                        <li>Flask Framework</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Use</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Android Adware Scanner. All rights reserved. | Made with ❤️ for Android Security</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function copyScanId() {
+            const input = document.getElementById('scanIdInput');
+            input.select();
+            document.execCommand('copy');
+            
+            const btn = document.querySelector('.btn-copy');
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            btn.style.background = '#2ecc71';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

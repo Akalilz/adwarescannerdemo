@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Demo Android APK static analysis using permission pattern detection for educational purposes">
+    <meta name="keywords" content="Android, APK, Static Analysis, Security, Demo, Pattern Detection, Sample Code">
+    <meta name="author" content="Android Security Research">
+    <title>Android Adware Scanner - Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🛡️</span>
+                <span class="logo-text">APK Security Scanner</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header id="home">
+            <div class="hero-content">
+                <h1>🛡️ Android Adware Scanner</h1>
+                <p class="subtitle">Static Analysis Demo</p>
+                <p class="hero-description">Detect suspicious apps using permission pattern analysis (Demo/Educational)</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="stats-banner">
+                <div class="stat-item">
+                    <div class="stat-number">23</div>
+                    <div class="stat-label">Permissions Tracked</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Adware Patterns</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">30</div>
+                    <div class="stat-label">Seconds Analysis</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100</div>
+                    <div class="stat-label">% Demo Mode</div>
+                </div>
+            </div>
+
+            <div class="upload-section">
+                <div class="upload-card">
+                    <div class="card-header">
+                        <h2>Upload APK File</h2>
+                        <span class="badge badge-live">Demo Mode</span>
+                    </div>
+                    <p class="description">Fast permission pattern analysis for Android security education and demonstrations</p>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📱</div>
+                        <p class="upload-text">Drag & drop your APK file here</p>
+                        <p class="upload-subtext">or</p>
+                        <label for="fileInput" class="btn btn-primary">Choose File</label>
+                        <input type="file" id="fileInput" accept=".apk" style="display: none;">
+                        <p class="file-info">Maximum file size: 100MB</p>
+                    </div>
+
+                    <div id="fileInfo" class="file-info-box" style="display: none;">
+                        <div class="file-details">
+                            <span class="file-name" id="fileName"></span>
+                            <span class="file-size" id="fileSize"></span>
+                        </div>
+                        
+                        <button class="btn btn-success" id="uploadBtn">Start Static Scan</button>
+                    </div>
+
+                    <div id="uploadProgress" class="progress-container" style="display: none;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p class="progress-text" id="progressText">Uploading...</p>
+                    </div>
+                </div>
+
+                <div id="features" class="features-section">
+                    <h3>Comprehensive Security Analysis</h3>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">🔍</div>
+                            <h4>Pattern Detection</h4>
+                            <p>Identifies suspicious permission combinations based on known adware patterns</p>
+                            <ul class="feature-list">
+                                <li>✓ 23 critical permissions monitored</li>
+                                <li>✓ 4 adware patterns detected</li>
+                                <li>✓ Real-time classification</li>
+                            </ul>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">⚡</div>
+                            <h4>Fast Analysis</h4>
+                            <p>Get demo results in under 30 seconds with pattern matching</p>
+                            <ul class="feature-list">
+                                <li>✓ Instant permission extraction</li>
+                                <li>✓ Pattern-based detection</li>
+                                <li>✓ Behavioral risk scoring</li>
+                            </ul>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📊</div>
+                            <h4>Professional Reports</h4>
+                            <p>Detailed PDF reports with actionable insights</p>
+                            <ul class="feature-list">
+                                <li>✓ Permission breakdown</li>
+                                <li>✓ Risk assessment</li>
+                                <li>✓ Security recommendations</li>
+                            </ul>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">�</div>
+                            <h4>Easy Download</h4>
+                            <p>Get your analysis report instantly</p>
+                            <ul class="feature-list">
+                                <li>✓ One-click download</li>
+                                <li>✓ PDF format</li>
+                                <li>✓ Detailed findings</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="how-it-works" class="how-it-works">
+                    <h3>How Our Scanner Works</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-number">1</div>
+                            <div class="timeline-content">
+                                <h4>Upload APK</h4>
+                                <p>Securely upload your Android APK file (up to 100MB). We support drag & drop for convenience.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-number">2</div>
+                            <div class="timeline-content">
+                                <h4>Static Analysis</h4>
+                                <p>Our CNN model analyzes app permissions against a database of known adware patterns and malicious behaviors.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-number">3</div>
+                            <div class="timeline-content">
+                                <h4>Download Report</h4>
+                                <p>View results on screen and download detailed PDF report with confidence score, detected permissions, and security recommendations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="about" class="about-section">
+                    <h3>About This Tool</h3>
+                    <div class="about-content">
+                        <div class="about-card">
+                            <h4>🎯 Purpose</h4>
+                            <p>Demo application demonstrating static malware analysis using permission pattern matching. Perfect for educational purposes, security demonstrations, and understanding threat detection concepts.</p>
+                        </div>
+                        <div class="about-card">
+                            <h4>🔬 Technology</h4>
+                            <p>Built with Flask and Androguard. Uses pattern matching to detect suspicious permission combinations commonly found in adware. This is a demonstration/mockup, not actual machine learning.</p>
+                        </div>
+                        <div class="about-card">
+                            <h4>🔒 Privacy</h4>
+                            <p>Uploaded files are analyzed locally and automatically deleted after scanning. No cloud storage, no third-party sharing. All processing happens on your server.</p>
+                        </div>
+                <div class="security-notice">
+                    <div class="notice-icon">⚠️</div>
+                    <div class="notice-content">
+                        <h4>Demo Notice</h4>
+                        <p>This is a demonstration/mockup tool for educational purposes only. It uses pattern matching, not actual machine learning. Results are for demonstration purposes and should not be used for real security decisions. Always download APKs from trusted sources like Google Play Store.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Android Adware Scanner</h4>
+                    <p>Professional ML-powered APK security analysis</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Technology</h4>
+                    <ul class="footer-links">
+                        <li>Pattern Detection</li>
+                        <li>Flask Framework</li>
+                        <li>Androguard Analysis</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Use</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Android Adware Scanner - Demo Version. For Educational & Demonstration Purposes Only</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
